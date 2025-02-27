@@ -2,10 +2,15 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List, Dict
 from huggingface_hub import InferenceClient
+from dotenv import load_dotenv
 
-# Substitua com o token que você obteve
-token = "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"
-client = InferenceClient(api_key=token)
+import os
+
+load_dotenv()
+
+API_KEY = os.getenv("GATEWAY_URL")
+
+client = InferenceClient(api_key=API_KEY)
 TRANSLATIONS = {
     "pt": {
         "error_message": "Desculpe, ocorreu um erro: {}. Por favor, verifique sua conexão e configurações."

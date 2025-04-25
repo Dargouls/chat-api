@@ -8,7 +8,7 @@ import os
 
 load_dotenv()
 
-API_KEY = os.getenv("GATEWAY_URL")
+API_KEY = os.getenv("API_KEY")
 
 client = InferenceClient(api_key=API_KEY)
 TRANSLATIONS = {
@@ -34,9 +34,10 @@ def respond(request: ChatRequest):
         return {"response": "Mensagem vazia, por favor, envie uma mensagem válida."}
 
     try:
-        model_id = "meta-llama/Llama-3.2-3B-Instruct"
+        model_id = os.getenv("MODEL_ID")
 
         messages = history
+
         messages.append({"role": "user", "content": message})
 
         print(messages)
@@ -44,17 +45,16 @@ def respond(request: ChatRequest):
             model=model_id,
             messages=messages,
             max_tokens=300,
-            temperature=0.7,  # Reduzir a aleatoriedade
-            top_p=0.9,  # Limitar a diversidade
+            temperature=0.5,  # Reduzir a aleatoriedade
+            top_p=0.7,  # Limitar a diversidade
         )
-        print("Modelo carregado")
 
         response = completion.choices[0].message
         # Remover as quebras de linha no conteúdo da resposta
         # Substituir \n por espaço (ou outro caractere)
         response_content = response.content
+
         messages.append({"role": response.role, "content": response_content})
-        print("Resposta gerada")
 
         return {"response": response_content, "history": history}
 

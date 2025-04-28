@@ -9,8 +9,10 @@ import os
 load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
+API_PROVIDER = os.getenv("API_PROVIDER")
 
-client = InferenceClient(api_key=API_KEY)
+client = InferenceClient(provider=API_PROVIDER, api_key=API_KEY)
+
 TRANSLATIONS = {
     "pt": {
         "error_message": "Desculpe, ocorreu um erro: {}. Por favor, verifique sua conexão e configurações."
@@ -60,6 +62,7 @@ def respond(request: ChatRequest):
 
     except Exception as e:
         error_message = TRANSLATIONS["pt"]["error_message"].format(str(e))
+        print("error: ", error_message)
         raise HTTPException(status_code=500, detail=error_message)
 
 

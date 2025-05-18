@@ -5,6 +5,6 @@
   "deploy": {
 		"buildCommand": "pip install --no-cache-dir -r requirements.txt",
     "healthcheckPath": "/",
-    "healthcheckTimeout": 300
+    "healthcheckTimeout": 20
   }
 }
